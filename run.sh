@@ -23,5 +23,5 @@ else
 fi
 
 com="sudo docker run --rm -d -v $map_dir:/data -p $port:80 klokantech/tileserver-gl $map_file"
-$com > docker_id
+$com > tmp/docker_id
 echo 'Server launched. Use ./kill.sh to finish server.'
