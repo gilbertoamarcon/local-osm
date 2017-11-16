@@ -12,7 +12,7 @@ port=8080
 # Input Args
 args=("$@")
 if [ "$#" -lt 1 ];then
-	printf 'Usage:\n./run.sh <path-to-map> <port-number>\n'
+	printf 'Invalid Arguments. Usage:\n./run.sh <path-to-map> <port-number>\n'
 	exit
 else
 	map_dir=$(dirname $1)

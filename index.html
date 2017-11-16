@@ -1,53 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Localized OpenStreetMap example</title>
-	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.css" type="text/css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.5.0/ol.js"></script>
+	<title>OSM</title>
+	<link rel="stylesheet" href="ol.css" type="text/css">
+	<script src="ol.js" type="text/javascript"></script>
+	<style>
+		html,body{
+			height: 100%;
+			margin: 0;
+		}
+		.map{
+			min-height: 100%;
+		}
+	</style>
 
 </head>
 <body>
-	<div class="container-fluid">
-
-		<div class="row-fluid">
-			<div class="span12">
-				<div id="map" class="map"></div>
-			</div>
-		</div>
-
-	</div>
+	<div id="map" class="map"></div>
 	<script>
-// tiles.openseamap.org does not set CORS headers, so we have to disable
-// crossOrigin and we cannot use WebGL.
 
-var openCycleMapLayer = new ol.layer.Tile({
-	source: new ol.source.OSM({
-		url: 'http://localhost:8080/styles/klokantech-basic/{z}/{x}/{y}.png'
-	})
-});
+		// View origin
+		var origin_lat_lon = [-121.946976, 36.804731];
 
+		// Projection
+		var projection = 'EPSG:3857';
 
-var map = new ol.Map({
-	layers: [
-	openCycleMapLayer
-	],
-	target: 'map',
-	controls: ol.control.defaults({
-		attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
-			collapsible: false
-		})
-	}),
-	view: new ol.View({
-		maxZoom: 18,
-		center: [-244780.24508882355, 5986452.183179816],
-		zoom: 15
-	})
-});
+		// Image format: jpg or png
+		var img_format = 'png';
 
-</script>
+		// Map Tile Server IP or domain name
+		var tile_server_ip = 'localhost';
+
+		// Map Tile Server Port Number
+		var tile_server_port = 8080;
+
+		// Map Tile Server Path
+		var tile_server_path = '/styles/klokantech-basic/{z}/{x}/{y}.';
+
+		// Tile URL
+		var tile_url = 'http://'+tile_server_ip+':'+tile_server_port+tile_server_path+img_format;
+
+		// Setting Background Layer Map Source
+		var backgroundMapLayer = new ol.layer.Tile({
+			source: new ol.source.OSM({
+				url: tile_url,
+			})
+		});
+
+		// Displaying Layers
+		var map = new ol.Map({
+			layers: [
+			backgroundMapLayer,
+			],
+			target: 'map',
+			view: new ol.View({
+				maxZoom: 50,
+				center: ol.proj.fromLonLat(origin_lat_lon),
+				projection: projection,
+				zoom: 10,
+			})
+		});
+
+	</script>
 </body>
 </html>
 
